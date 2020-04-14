@@ -5,7 +5,13 @@ import java.util.List;
 import cardgame.model.Player;
 import cardgame.model.PlayingCard;
 
-public class GameEvaluator {
+public interface GameEvaluator {
+	public Player evaluateWinner(List<Player> players) {
+		
+	}
+}
+
+public class HighCardGameEvaluator implements GameEvaluator {
 	
 	public Player evaluateWinner(List<Player> players) {
 		Player bestPlayer = null;

@@ -21,14 +21,16 @@ public class GameController {
 	Player winner;
 	View view;
 	GameState gameState;
+	GameEvaluator evaluator;
 	
 	
-	public GameController(View view, Deck deck) {
+	public GameController(View view, Deck deck, GameEvaluator _evaluator) {
 		this.view = view;
 		this.deck = deck;
 		players = new ArrayList<Player> ();
 		gameState = GameState.AddingPlayers;
 		view.setController(this);
+		evaluator = _evaluator;
 	}
 	
 	public void run() {
@@ -84,7 +86,7 @@ public class GameController {
 	}
 	
 	void evaluateWinner() {
-		winner = new GameEvaluator().evaluateWinner(players);
+		winner = evaluator.evaluateWinner(players);
 	}
 	
 	void displayWinner() {
