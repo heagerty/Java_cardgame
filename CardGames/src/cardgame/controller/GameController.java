@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import cardgame.model.Deck;
 import cardgame.model.Player;
 import cardgame.model.PlayingCard;
-import cardgame.view.View;
+import cardgame.view.CommandLineView;
+import cardgame.view.GameViewable;
 import cardgames.gamedata.GameEvaluator;
 
 public class GameController {
@@ -19,12 +20,12 @@ public class GameController {
 	Deck deck;
 	ArrayList<Player> players;
 	Player winner;
-	View view;
+	GameViewable view;
 	GameState gameState;
 	GameEvaluator evaluator;
 	
 	
-	public GameController(View view, Deck deck, GameEvaluator _evaluator) {
+	public GameController(GameViewable view, Deck deck, GameEvaluator _evaluator) {
 		this.view = view;
 		this.deck = deck;
 		players = new ArrayList<Player> ();
