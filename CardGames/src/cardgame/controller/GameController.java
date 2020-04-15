@@ -100,4 +100,9 @@ public class GameController {
 		}
 	}
 	
+	void restartGame() {
+		rebuildDeck();
+		gameState = GameState.AddingPlayers;
+	}
+	
 }
