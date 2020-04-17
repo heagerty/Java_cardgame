@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import cardgame.model.Deck;
 import cardgame.model.Player;
 import cardgame.model.PlayingCard;
-import cardgame.view.View;
+import cardgame.view.CommandLineView;
+import cardgame.view.GameViewable;
 import cardgames.gamedata.GameEvaluator;
+import cardgames.gamedata.HighCardGameEvaluator;
 
 public class GameController {
 	
@@ -19,16 +21,20 @@ public class GameController {
 	Deck deck;
 	ArrayList<Player> players;
 	Player winner;
-	View view;
+	GameViewable view;
 	GameState gameState;
+	GameEvaluator evaluator;
 	
 	
-	public GameController(View view, Deck deck) {
+	public GameController(GameViewable view, Deck deck, GameEvaluator evaluator) {
 		this.view = view;
 		this.deck = deck;
 		players = new ArrayList<Player> ();
 		gameState = GameState.AddingPlayers;
 		view.setController(this);
+		this.evaluator = evaluator;
+		this.evaluator = new HighCardGameEvaluator();
+		
 	}
 	
 	public void run() {
@@ -84,7 +90,7 @@ public class GameController {
 	}
 	
 	void evaluateWinner() {
-		winner = new GameEvaluator().evaluateWinner(players);
+		winner = evaluator.evaluateWinner(players);
 	}
 	
 	void displayWinner() {
@@ -95,6 +101,11 @@ public class GameController {
 		for (Player player : players) {
 			deck.returnCardToDeck(player.removeCard());
 		}
+	}
+	
+	void restartGame() {
+		rebuildDeck();
+		gameState = GameState.AddingPlayers;
 	}
 	
 }

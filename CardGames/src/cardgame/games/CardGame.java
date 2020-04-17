@@ -2,12 +2,20 @@ package cardgame.games;
 
 import cardgame.controller.GameController;
 import cardgame.model.Deck;
-import cardgame.view.View;
+import cardgame.view.CommandLineView;
+import cardgame.view.GameSwing;
 
 public class CardGame {
 	
 	public static void main(String[] args) {
-		GameController gc = new GameController(new View(), new Deck());
+		
+		GameSwing gs = new GameSwing();
+		gs.createAndShowGUI();
+		GameController gc = new GameController(
+				gs, 
+				new Deck(),
+				null
+				);
 		gc.run();
 	}
 
