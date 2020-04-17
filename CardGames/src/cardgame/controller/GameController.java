@@ -8,6 +8,7 @@ import cardgame.model.PlayingCard;
 import cardgame.view.CommandLineView;
 import cardgame.view.GameViewable;
 import cardgames.gamedata.GameEvaluator;
+import cardgames.gamedata.HighCardGameEvaluator;
 
 public class GameController {
 	
@@ -25,13 +26,15 @@ public class GameController {
 	GameEvaluator evaluator;
 	
 	
-	public GameController(GameViewable view, Deck deck, GameEvaluator _evaluator) {
+	public GameController(GameViewable view, Deck deck, GameEvaluator evaluator) {
 		this.view = view;
 		this.deck = deck;
 		players = new ArrayList<Player> ();
 		gameState = GameState.AddingPlayers;
 		view.setController(this);
-		evaluator = _evaluator;
+		this.evaluator = evaluator;
+		this.evaluator = new HighCardGameEvaluator();
+		
 	}
 	
 	public void run() {
