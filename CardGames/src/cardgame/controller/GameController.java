@@ -3,10 +3,13 @@ package cardgame.controller;
 import java.util.ArrayList;
 
 import cardgame.model.Deck;
+import cardgame.model.IPlayer;
 import cardgame.model.Player;
 import cardgame.model.PlayingCard;
+import cardgame.model.WinningPlayer;
 import cardgame.view.CommandLineView;
 import cardgame.view.GameViewable;
+import cardgame.view.GameViewables;
 import cardgames.gamedata.GameEvaluator;
 import cardgames.gamedata.HighCardGameEvaluator;
 
@@ -15,41 +18,59 @@ public class GameController {
 	enum GameState {
 		AddingPlayers,
 		CardsDealt,
-		WinnerRevealed
+		WinnerRevealed,
+		AddingView
 	}
 	
 	Deck deck;
-	ArrayList<Player> players;
-	Player winner;
-	GameViewable view;
+	ArrayList<IPlayer> players;
+	IPlayer winner;
+	GameViewables views;
 	GameState gameState;
 	GameEvaluator evaluator;
 	
 	
 	public GameController(GameViewable view, Deck deck, GameEvaluator evaluator) {
-		this.view = view;
+		views = new GameViewables();
 		this.deck = deck;
-		players = new ArrayList<Player> ();
+		players = new ArrayList<IPlayer> ();
 		gameState = GameState.AddingPlayers;
-		view.setController(this);
+		//view.setController(this);
+		addViewable(view);
 		this.evaluator = evaluator;
 		this.evaluator = new HighCardGameEvaluator();
 		
+	}
+	
+	public void addViewable(GameViewable newView) {
+		GameState curState = gameState;
+		gameState = GameState.AddingView;
+		newView.setController(this);
+		views.addViewable(newView);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		gameState = curState;
 	}
 	
 	public void run() {
 		while (true) {
 			switch (gameState) {
 				case AddingPlayers:
-					view.promptForPlayerName();
+					views.promptForPlayerName();
 					break;
 				
 				case CardsDealt:
-					view.promptForFlip();
+					views.promptForFlip();
 					break;
 				
 				case WinnerRevealed:
-					view.promptForNewGame();
+					views.promptForNewGame();
+					break;
+					
+				case AddingView:
 					break;
 			}
 		}
@@ -67,7 +88,7 @@ public class GameController {
 		if (gameState != GameState.CardsDealt) {
 			deck.shuffle();
 			int playerIndex = 1;
-			for (Player player : players) {
+			for (IPlayer player : players) {
 				player.addCardToHand(deck.removeTopCard());
 				view.showFaceDownCardForPlayer(playerIndex++, player.getName());
 			}
@@ -77,7 +98,7 @@ public class GameController {
 	
 	public void flipCards() {
 		int playerIndex = 1;
-		for (Player player : players) {
+		for (IPlayer player : players) {
 			PlayingCard pc = player.getCard(0);
 			pc.flip();
 			view.showCardForPlayer(playerIndex++, player.getName(), pc.getRank().toString(), pc.getSuit().toString());
@@ -90,7 +111,7 @@ public class GameController {
 	}
 	
 	void evaluateWinner() {
-		winner = evaluator.evaluateWinner(players);
+		winner = new WinningPlayer(evaluator.evaluateWinner(players));
 	}
 	
 	void displayWinner() {
@@ -98,7 +119,7 @@ public class GameController {
 	}
 	
 	void rebuildDeck() {
-		for (Player player : players) {
+		for (IPlayer player : players) {
 			deck.returnCardToDeck(player.removeCard());
 		}
 	}
