@@ -1,28 +1,13 @@
 package cardgame.model;
 
-public class Player {
-	String name;
-	Hand hand;
+public interface IPlayer {
 	
-	public Player(String name) {
-		this.name = name;
-		hand = new Hand();
-	}
+	public String getName();
 	
-	public String getName() {
-		return name;
-	}
+	public void addCardToHand(PlayingCard pc);
 	
-	public void addCardToHand(PlayingCard pc) {
-		hand.addCard(pc);
-	}
+	public PlayingCard getCard(int index);
 	
-	public PlayingCard getCard(int index) {
-		return hand.getCard(index);
-	}
-	
-	public PlayingCard removeCard() {
-		return hand.removeCard();
-	}
+	public PlayingCard removeCard();
 
 }
