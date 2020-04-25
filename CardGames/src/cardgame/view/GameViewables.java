@@ -8,7 +8,7 @@ import cardgame.controller.GameController;
 
 public class GameViewables implements GameViewable {
 	
-	Vector<GameViewable> views;
+	private Vector<GameViewable> views;
 	
 	public GameViewables() {
 		views = new Vector<GameViewable> ();

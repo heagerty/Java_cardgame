@@ -2,7 +2,7 @@ package cardgame.model;
 
 public enum Rank {
 
-	NONE (0),
+	// NONE (0),    //joker
 	TWO (2),
 	THREE (3),
 	FOUR (4),
@@ -17,7 +17,7 @@ public enum Rank {
 	KING (13),
 	ACE (14);
 	
-	int rank;
+	private int rank;
 	
 	private Rank(int value) {
 		rank = value;

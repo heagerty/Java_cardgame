@@ -1,7 +1,7 @@
 package cardgame.model;
 
 public class WinningPlayer implements IPlayer {
-	IPlayer winner;
+	private IPlayer winner;
 	
 	public WinningPlayer(IPlayer player) {
 		winner = player;

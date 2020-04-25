@@ -6,8 +6,8 @@ import cardgame.controller.GameController;
 
 public class CommandLineView implements GameViewable {
 
-	GameController controller;
-	Scanner keyboard = new Scanner(System.in);
+	private GameController controller;
+	private Scanner keyboard = new Scanner(System.in);
 	
 	public void setController(GameController gc) {
 		this.controller = gc; // not gc?
