@@ -15,12 +15,12 @@ import javax.swing.JTextArea;
 import cardgame.controller.GameController;
 
 public class GameSwing implements GameViewable {
-    GameController controller;
+    private GameController controller;
     
-    JButton btnAddPlayer;
-    JButton btnDealCards;
-    JButton btnFindWinner;
-    JTextArea textArea;
+    private JButton btnAddPlayer;
+    private JButton btnDealCards;
+    private JButton btnFindWinner;
+    private JTextArea textArea;
     static char nextPlayerName = 'A';
 
     public void createAndShowGUI() {

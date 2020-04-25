@@ -1,8 +1,6 @@
 package cardgame.games;
 
 import cardgame.controller.GameController;
-import cardgame.model.Deck;
-import cardgame.view.CommandLineView;
 import cardgame.view.GameSwing;
 import cardgames.gamedata.DeckFactory;
 import cardgames.gamedata.DeckFactory.DeckType;

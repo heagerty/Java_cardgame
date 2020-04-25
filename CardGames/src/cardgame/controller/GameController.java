@@ -3,6 +3,7 @@ package cardgame.controller;
 import java.util.ArrayList;
 
 import cardgame.model.Deck;
+import cardgame.model.GameState;
 import cardgame.model.IPlayer;
 import cardgame.model.Player;
 import cardgame.model.PlayingCard;
@@ -15,19 +16,19 @@ import cardgames.gamedata.HighCardGameEvaluator;
 
 public class GameController {
 	
-	enum GameState {
-		AddingPlayers,
-		CardsDealt,
-		WinnerRevealed,
-		AddingView
-	}
+//	enum GameState {
+//		AddingPlayers,
+//		CardsDealt,
+//		WinnerRevealed,
+//		AddingView
+//	}
 	
-	Deck deck;
-	ArrayList<IPlayer> players;
-	IPlayer winner;
-	GameViewables views;
-	GameState gameState;
-	GameEvaluator evaluator;
+	private Deck deck;
+	private ArrayList<IPlayer> players;
+	private IPlayer winner;
+	private GameViewables views;
+	private GameState gameState;
+	private GameEvaluator evaluator;
 	
 	
 	public GameController(GameViewable view, Deck deck, GameEvaluator evaluator) {
@@ -79,7 +80,7 @@ public class GameController {
 	public void addPlayer(String playerName) {
 		if (gameState == GameState.AddingPlayers) {
 			players.add(new Player(playerName));
-			view.showPlayerName(players.size(), playerName);
+			views.showPlayerName(players.size(), playerName);
 		}
 	}
 	
@@ -90,7 +91,7 @@ public class GameController {
 			int playerIndex = 1;
 			for (IPlayer player : players) {
 				player.addCardToHand(deck.removeTopCard());
-				view.showFaceDownCardForPlayer(playerIndex++, player.getName());
+				views.showFaceDownCardForPlayer(playerIndex++, player.getName());
 			}
 			gameState = GameState.CardsDealt;
 		}
@@ -101,7 +102,7 @@ public class GameController {
 		for (IPlayer player : players) {
 			PlayingCard pc = player.getCard(0);
 			pc.flip();
-			view.showCardForPlayer(playerIndex++, player.getName(), pc.getRank().toString(), pc.getSuit().toString());
+			views.showCardForPlayer(playerIndex++, player.getName(), pc.getRank().toString(), pc.getSuit().toString());
 		}
 		
 		evaluateWinner();
@@ -110,21 +111,21 @@ public class GameController {
 		gameState = GameState.WinnerRevealed;
 	}
 	
-	void evaluateWinner() {
+	public void evaluateWinner() {
 		winner = new WinningPlayer(evaluator.evaluateWinner(players));
 	}
 	
-	void displayWinner() {
-		view.showWinner(winner.getName());
+	public void displayWinner() {
+		views.showWinner(winner.getName());
 	}
 	
-	void rebuildDeck() {
+	private void rebuildDeck() {
 		for (IPlayer player : players) {
 			deck.returnCardToDeck(player.removeCard());
 		}
 	}
 	
-	void restartGame() {
+	private void restartGame() {
 		rebuildDeck();
 		gameState = GameState.AddingPlayers;
 	}

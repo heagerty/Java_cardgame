@@ -6,7 +6,7 @@ import java.util.Random;
 
 public abstract class Deck {
 
-	ArrayList<PlayingCard> cards;
+	public ArrayList<PlayingCard> cards;
 	
 	public Deck() {
 		cards = new ArrayList<PlayingCard>();

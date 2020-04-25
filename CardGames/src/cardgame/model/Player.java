@@ -2,8 +2,8 @@ package cardgame.model;
 
 public class Player implements IPlayer {
 
-	String name;
-	Hand hand;
+	private String name;
+	private Hand hand;
 	
 	public Player(String name) {
 		this.name = name;

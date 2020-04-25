@@ -2,9 +2,9 @@ package cardgame.model;
 
 public class PlayingCard {
 
-	Rank rank;
-	Suit suit;
-	boolean faceUp;
+	private Rank rank;
+	private Suit suit;
+	private boolean faceUp;
 	
 	public Rank getRank() {
 		return rank;
